@@ -1,0 +1,34 @@
+with "config/test_config.gpr";
+with "adafruit_metro_rp2040_bsp.gpr";
+
+project Test is
+
+   for Target use Adafruit_Metro_RP2040_BSP'Target;
+   for Runtime ("Ada") use "light-cortex-m0p";
+
+   for Source_Dirs use ("src/", "config/");
+   for Object_Dir use "obj/" & Test_Config.Build_Profile;
+   for Create_Missing_Dirs use "True";
+   for Exec_Dir use "bin";
+   for Main use ("test.adb");
+
+   package Compiler is
+      for Default_Switches ("Ada") use Test_Config.Ada_Compiler_Switches;
+   end Compiler;
+
+   package Binder is
+      for Switches ("Ada") use ("-Es"); --  Symbolic traceback
+   end Binder;
+
+   package Install is
+      for Artifacts (".") use ("share");
+   end Install;
+
+   package Linker is
+      for Switches ("Ada") use Adafruit_Metro_RP2040_BSP.Linker_Switches & (
+         "-Wl,-print-memory-usage",
+         "-Wl,-gc-sections"
+      );
+   end Linker;
+
+end Test;

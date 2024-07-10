@@ -1,0 +1,16 @@
+name = "adafruit_metro_rp2040_bsp"
+description = "Adafruit Metro RP2040 Board Support Package"
+version = "0.1.0-dev"
+
+authors = ["Jeremy Grosser"]
+maintainers = ["Jeremy Grosser <jeremy@synack.me>"]
+maintainers-logins = ["JeremyGrosser"]
+licenses = "BSD-3-Clause"
+website = "https://github.com/JeremyGrosser/adafruit_metro_rp2040_bsp"
+tags = ["bsp", "rp2040", "adafruit", "embedded"]
+
+[[depends-on]]
+rp2040_hal = "^2.3.0"
+
+[[depends-on]]
+chests = "~0.1.1"
