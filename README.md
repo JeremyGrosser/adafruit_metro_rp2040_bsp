@@ -1,5 +1,7 @@
 # Adafruit Metro RP2040 BSP (Ada)
 
+See also: [Adafruit Metro RP2040 PCB](https://github.com/adafruit/Adafruit-Metro-RP2040-PCB)
+
 This BSP provides simplified abstractions over the RP2040's peripherals to make
 it easier to prototype with Arduino-compatible shields.
 
