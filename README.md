@@ -2,6 +2,8 @@
 
 See also: [Adafruit Metro RP2040 PCB](https://github.com/adafruit/Adafruit-Metro-RP2040-PCB)
 
+![Pinout diagram](https://cdn-learn.adafruit.com/assets/assets/000/123/326/original/adafruit_products_Adafruit_Metro_RP2040_Pinout.png)
+
 This BSP provides simplified abstractions over the RP2040's peripherals to make
 it easier to prototype with Arduino-compatible shields.
 
