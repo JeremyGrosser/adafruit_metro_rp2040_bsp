@@ -34,10 +34,10 @@ package body Screen is
           Set => True);
    end Set_Pixel;
 
-   procedure Clear is
+   procedure Swap is
    begin
-      OLED.Clear;
-   end Clear;
+      OLED.Swap;
+   end Swap;
 
    task body Screen_IO is
       T : Time := Clock;

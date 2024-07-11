@@ -41,7 +41,7 @@ begin
       MRP.GPIO.Analog_Write (MRP.Pins.D12, DC);
       DC := DC - 25;
 
-      Screen.Clear;
+      Screen.Swap;
       for X in 0 .. 127 loop
          Screen.Set_Pixel (X, 16);
       end loop;

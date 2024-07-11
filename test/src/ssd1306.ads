@@ -23,6 +23,8 @@ is
        Y   : Row;
        Set : Boolean);
 
+   procedure Swap;
+
    procedure Update;
 
    procedure Clear;

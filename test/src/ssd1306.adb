@@ -3,6 +3,9 @@
 --
 --  SPDX-License-Identifier: MIT
 --
+pragma Style_Checks ("M120");
+with Ada.Unchecked_Conversion;
+
 package body SSD1306 is
 
    MEMORYMODE           : constant UInt8 := 16#20#;
@@ -26,7 +29,15 @@ package body SSD1306 is
    DEACTIVATE_SCROLL    : constant UInt8 := 16#2E#;
 
    subtype Framebuffer is UInt8_Array (0 .. Width * Height / 8 - 1);
-   FB : Framebuffer;
+   type FB_Swap is mod 2;
+   FB : array (FB_Swap) of Framebuffer;
+   Current_FB : FB_Swap := 0;
+
+   procedure Swap is
+   begin
+      Current_FB := Current_FB + 1;
+      Clear;
+   end Swap;
 
    procedure Write_Command
       (Data : UInt8_Array)
@@ -95,16 +106,16 @@ package body SSD1306 is
       Mask   : constant UInt8 := 2 ** Offset;
    begin
       if Set then
-         FB (Index) := FB (Index) or Mask;
+         FB (Current_FB) (Index) := FB (Current_FB) (Index) or Mask;
       else
-         FB (Index) := FB (Index) and not Mask;
+         FB (Current_FB) (Index) := FB (Current_FB) (Index) and not Mask;
       end if;
    end Set_Pixel;
 
    procedure Update is
-      Data : UInt8_Array (1 .. Width * Height / 8)
-         with Import, Address => FB'Address;
-      --  Count : UInt16 := Width * ((Height + 7) / 8);
+      subtype FB_Bytes is UInt8_Array (1 .. Width * Height / 8);
+      function To_Bytes is new Ada.Unchecked_Conversion (Framebuffer, FB_Bytes);
+      Data : constant FB_Bytes := To_Bytes (FB (Current_FB - 1));
    begin
       Write_Command
          (UInt8_Array'(
@@ -120,6 +131,6 @@ package body SSD1306 is
 
    procedure Clear is
    begin
-      FB := (others => 0);
+      FB (Current_FB) := (others => 0);
    end Clear;
 end SSD1306;

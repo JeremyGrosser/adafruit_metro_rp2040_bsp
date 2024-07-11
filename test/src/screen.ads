@@ -5,7 +5,7 @@
 --
 package Screen is
 
-   procedure Clear;
+   procedure Swap;
 
    procedure Set_Pixel
       (X, Y : Natural);
