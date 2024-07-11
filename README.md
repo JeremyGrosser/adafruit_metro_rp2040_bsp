@@ -35,6 +35,9 @@ alr build
 elf2uf2 bin/example bin/example.uf2
 ```
 
+## Ravenscar Runtime
+The `ravenscar` branch uses the `embedded-rpi-pico-smp` runtime and supports advanced features like tasking, protected types, and heap allocation.
+
 ## Pinout
 ![Pinout diagram](https://cdn-learn.adafruit.com/assets/assets/000/123/326/original/adafruit_products_Adafruit_Metro_RP2040_Pinout.png)
 
