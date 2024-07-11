@@ -25,7 +25,7 @@ begin
 end Example;
 ```
 
-See [test/src/test.adb](test.adb) for a more comprehensive example.
+See [test/src/test.adb](test/src/test.adb) for a more comprehensive example.
 
 ## Building
 Build with [Alire](https://alire.ada.dev/)
