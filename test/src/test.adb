@@ -72,7 +72,7 @@ begin
 
       Data := (16#AA#, 16#55#);
       MRP.UART.Write (Data);
-      if MRP.UART.Available > 0 then
+      if MRP.UART.Available >= Data'Length then
          MRP.UART.Read (Data);
       end if;
 
