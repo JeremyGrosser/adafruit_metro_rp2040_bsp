@@ -9,9 +9,8 @@ with Adafruit_Metro_RP2040.I2C;
 with Adafruit_Metro_RP2040.UART;
 with Adafruit_Metro_RP2040.GPIO;
 with Adafruit_Metro_RP2040.Pins;
+with Adafruit_Metro_RP2040.Time;
 with Adafruit_Metro_RP2040;
-with RP.Timer.Interrupts;
-with RP.Timer; use RP.Timer;
 with RP.Clock;
 with HAL;
 
@@ -19,7 +18,7 @@ with SSD1306;
 
 procedure Test is
    package MRP renames Adafruit_Metro_RP2040;
-   Delays : RP.Timer.Interrupts.Delays;
+   use MRP.Time;
 
    Screen_Error : Boolean := True;
 
@@ -50,7 +49,7 @@ begin
    MRP.GPIO.Pin_Mode (MRP.Pins.D13, Output => True);
    MRP.GPIO.Pin_Mode (MRP.Pins.D12, Output => True);
 
-   Delays.Enable;
+   MRP.Time.Initialize;
    T := Clock;
 
    loop
@@ -79,18 +78,18 @@ begin
 
       MRP.LED.Set_Color (R => 32);
       T := T + Milliseconds (100);
-      Delays.Delay_Until (T);
+      Delay_Until (T);
 
       MRP.LED.Set_Color (G => 32);
       T := T + Milliseconds (100);
-      Delays.Delay_Until (T);
+      Delay_Until (T);
 
       MRP.LED.Set_Color (B => 32);
       T := T + Milliseconds (100);
-      Delays.Delay_Until (T);
+      Delay_Until (T);
 
       MRP.LED.Set_Color;
       T := T + Milliseconds (900);
-      Delays.Delay_Until (T);
+      Delay_Until (T);
    end loop;
 end Test;

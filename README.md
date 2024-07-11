@@ -1,5 +1,30 @@
 # Adafruit Metro RP2040 BSP (Ada)
 
+```ada
+with Adafruit_Metro_RP2040.GPIO;
+with Adafruit_Metro_RP2040.Pins;
+with Adafruit_Metro_RP2040.Time;
+with Adafruit_Metro_RP2040.LED;
+with Adafruit_Metro_RP2040;
+
+procedure Example is
+   package MRP renames Adafruit_Metro_RP2040;
+   use MRP.Pins;
+   use MRP.GPIO;
+   use MRP.Time;
+begin
+   MRP.Time.Initialize;
+   MRP.LED.Initialize;
+
+   loop
+      Digital_Write (D13, True);
+      Delay_Milliseconds (100);
+      Digital_Write (D13, False);
+      Delay_Milliseconds (100);
+   end loop;
+end Example;
+```
+
 See also: [Adafruit Metro RP2040 PCB](https://github.com/adafruit/Adafruit-Metro-RP2040-PCB)
 
 ![Pinout diagram](https://cdn-learn.adafruit.com/assets/assets/000/123/326/original/adafruit_products_Adafruit_Metro_RP2040_Pinout.png)
