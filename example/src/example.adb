@@ -3,18 +3,13 @@
 --
 --  SPDX-License-Identifier: BSD-3-Clause
 --
-with Adafruit_Metro_RP2040.GPIO;
-with Adafruit_Metro_RP2040.Pins;
-with Adafruit_Metro_RP2040.Time;
-with Adafruit_Metro_RP2040;
+with Adafruit_Metro_RP2040.GPIO; use Adafruit_Metro_RP2040.GPIO;
+with Adafruit_Metro_RP2040.Pins; use Adafruit_Metro_RP2040.Pins;
+with Adafruit_Metro_RP2040.Time; use Adafruit_Metro_RP2040.Time;
 
 procedure Example is
-   package MRP renames Adafruit_Metro_RP2040;
-   use MRP.Pins;
-   use MRP.GPIO;
-   use MRP.Time;
 begin
-   MRP.Time.Initialize;
+   Adafruit_Metro_RP2040.Time.Initialize;
    loop
       Digital_Write (D13, True);
       Delay_Milliseconds (100);
