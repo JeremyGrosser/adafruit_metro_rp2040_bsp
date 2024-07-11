@@ -25,6 +25,8 @@ begin
 end Example;
 ```
 
+See [test/src/test.adb](test.adb) for a more comprehensive example.
+
 ## Building
 Build with [Alire](https://alire.ada.dev/)
 
@@ -33,8 +35,6 @@ cd example/
 alr build
 elf2uf2 bin/example bin/example.uf2
 ```
-
-See [test/src/test.adb](test.adb) for a more comprehensive example.
 
 ## Pinout
 ![Pinout diagram](https://cdn-learn.adafruit.com/assets/assets/000/123/326/original/adafruit_products_Adafruit_Metro_RP2040_Pinout.png)
