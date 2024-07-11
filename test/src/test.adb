@@ -3,7 +3,6 @@
 --
 --  SPDX-License-Identifier: BSD-3-Clause
 --
-pragma Ada_2022;
 with Ada.Real_Time; use Ada.Real_Time;
 with Adafruit_Metro_RP2040.LED;
 with Adafruit_Metro_RP2040.SPI;
@@ -62,10 +61,10 @@ begin
       end case;
       State := State + 1;
 
-      Data := [16#AA#, 16#55#];
+      Data := (16#AA#, 16#55#);
       MRP.SPI.Transfer (Data);
 
-      Data := [16#AA#, 16#55#];
+      Data := (16#AA#, 16#55#);
       MRP.UART.Write (Data);
       if MRP.UART.Available >= Data'Length then
          MRP.UART.Read (Data);
