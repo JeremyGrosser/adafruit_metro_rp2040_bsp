@@ -18,6 +18,7 @@ package Screen is
        Set_Pixel     => Set_Pixel,
        Clear_Screen  => Swap);
 
-   task Screen_IO;
+   task Screen_IO
+      with CPU => 2;
 
 end Screen;
