@@ -35,8 +35,8 @@ alr build
 elf2uf2 bin/example bin/example.uf2
 ```
 
-## Ravenscar Runtime
-The `master` branch uses the `embedded-rpi-pico-smp` runtime and supports advanced features like tasking, protected types, and heap allocation.
+## Runtime
+The `master` branch uses the `embedded-rpi-pico-smp` runtime and supports advanced features like tasking, protected types, and heap allocation with the Jorvik profile.
 
 If you don't need those features, the `light` branch uses the `light-cortex-m0p` runtime.
 

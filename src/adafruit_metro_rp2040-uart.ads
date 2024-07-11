@@ -21,7 +21,6 @@ is
       return Natural;
 
    procedure Read
-      (Data : out HAL.UInt8_Array;
-       Last : out Natural);
+      (Data : out HAL.UInt8_Array);
 
 end Adafruit_Metro_RP2040.UART;

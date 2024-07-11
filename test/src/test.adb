@@ -30,7 +30,6 @@ procedure Test is
    package Screen is new SSD1306 (Screen_Write);
 
    Data : HAL.UInt8_Array (1 .. 2);
-   Last : Natural;
 
    T : Time;
 
@@ -74,7 +73,7 @@ begin
       Data := (16#AA#, 16#55#);
       MRP.UART.Write (Data);
       if MRP.UART.Available > 0 then
-         MRP.UART.Read (Data, Last);
+         MRP.UART.Read (Data);
       end if;
 
       MRP.LED.Set_Color (R => 32);

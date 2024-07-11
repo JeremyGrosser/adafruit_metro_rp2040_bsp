@@ -18,7 +18,6 @@ package body Adafruit_Metro_RP2040.UART is
    package Byte_Buffers is new Chests.Ring_Buffers
       (Element_Type => HAL.UInt8,
        Capacity     => 32);
-   Buffer : Byte_Buffers.Ring_Buffer;
 
    RXD : RP.GPIO.GPIO_Point := (Pin => Adafruit_Metro_RP2040.Pins.D0);
    TXD : RP.GPIO.GPIO_Point := (Pin => Adafruit_Metro_RP2040.Pins.D1);
@@ -29,6 +28,14 @@ package body Adafruit_Metro_RP2040.UART is
        Config => RP.UART.Default_UART_Configuration);
 
    protected Receiver is
+      procedure Reset;
+      entry Get
+         (Data : out HAL.UInt8);
+      function Length
+         return Natural;
+   private
+      Count  : Natural := 0;
+      Buffer : Byte_Buffers.Ring_Buffer;
       procedure UART_Interrupt
          with Attach_Handler => Ada.Interrupts.Names.UART0_Interrupt_CPU_1;
    end Receiver;
@@ -45,9 +52,30 @@ package body Adafruit_Metro_RP2040.UART is
             Port.Receive (UART_Data_8b (Data), Status, Timeout => 0);
             if not Is_Full (Buffer) and then Status = Ok then
                Append (Buffer, Data (1));
+               Count := Count + 1;
             end if;
          end loop;
       end UART_Interrupt;
+
+      procedure Reset is
+      begin
+         Byte_Buffers.Clear (Buffer);
+         Count := 0;
+      end Reset;
+
+      entry Get
+         (Data : out HAL.UInt8)
+         when Count > 0
+      is
+      begin
+         Data := Byte_Buffers.First_Element (Buffer);
+         Byte_Buffers.Delete_First (Buffer);
+         Count := Count - 1;
+      end Get;
+
+      function Length
+         return Natural
+      is (Count);
    end Receiver;
 
    procedure Initialize is
@@ -55,7 +83,7 @@ package body Adafruit_Metro_RP2040.UART is
       Port.Configure;
       TXD.Configure (RP.GPIO.Output, RP.GPIO.Pull_Up, RP.GPIO.UART);
       RXD.Configure (RP.GPIO.Output, RP.GPIO.Floating, RP.GPIO.UART);
-      Byte_Buffers.Clear (Buffer);
+      Receiver.Reset;
       Port.Set_FIFO_IRQ_Level (RX => RP.UART.Lvl_Eighth, TX => RP.UART.Lvl_Eighth);
       Port.Enable_IRQ (RP.UART.Receive);
    end Initialize;
@@ -78,20 +106,14 @@ package body Adafruit_Metro_RP2040.UART is
 
    function Available
       return Natural
-   is (Byte_Buffers.Length (Buffer));
+   is (Receiver.Length);
 
    procedure Read
-      (Data : out HAL.UInt8_Array;
-       Last : out Natural)
+      (Data : out HAL.UInt8_Array)
    is
-      use Byte_Buffers;
    begin
-      Last := Data'First - 1;
       for I in Data'Range loop
-         exit when Is_Empty (Buffer);
-         Data (I) := Last_Element (Buffer);
-         Delete_Last (Buffer);
-         Last := I;
+         Receiver.Get (Data (I));
       end loop;
    end Read;
 
