@@ -3,6 +3,7 @@
 --
 --  SPDX-License-Identifier: BSD-3-Clause
 --
+with Ada.Real_Time; use Ada.Real_Time;
 with Adafruit_Metro_RP2040.LED;
 with Adafruit_Metro_RP2040.SPI;
 with Adafruit_Metro_RP2040.I2C;
@@ -10,8 +11,6 @@ with Adafruit_Metro_RP2040.UART;
 with Adafruit_Metro_RP2040.GPIO;
 with Adafruit_Metro_RP2040.Pins;
 with Adafruit_Metro_RP2040;
-with Ada.Real_Time; use Ada.Real_Time;
-with RP.Clock;
 with HAL;
 
 with SSD1306;
@@ -39,7 +38,6 @@ procedure Test is
    use type HAL.UInt8;
    DC : HAL.UInt8 := 255;
 begin
-   RP.Clock.Initialize (12_000_000);
    MRP.LED.Initialize;
    MRP.I2C.Initialize;
    MRP.SPI.Initialize;
