@@ -50,7 +50,11 @@ package body Adafruit_Metro_RP2040.UART is
       begin
          while Port.Receive_Status /= RP.UART.Empty loop
             Port.Receive (UART_Data_8b (Data), Status, Timeout => 0);
-            if not Is_Full (Buffer) and then Status = Ok then
+            if Status = Ok then
+               if Is_Full (Buffer) then
+                  Delete_First (Buffer);
+                  Count := Count - 1;
+               end if;
                Append (Buffer, Data (1));
                Count := Count + 1;
             end if;
