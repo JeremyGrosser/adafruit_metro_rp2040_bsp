@@ -15,7 +15,6 @@ with Adafruit_Metro_RP2040.Time; use Adafruit_Metro_RP2040.Time;
 
 procedure Example is
 begin
-   Adafruit_Metro_RP2040.Time.Initialize;
    loop
       Digital_Write (D13, True);
       Delay_Milliseconds (100);

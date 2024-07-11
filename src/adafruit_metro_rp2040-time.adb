@@ -10,11 +10,6 @@ package body Adafruit_Metro_RP2040.Time is
 
    Delays : RP.Timer.Interrupts.Delays;
 
-   procedure Initialize is
-   begin
-      Delays.Enable;
-   end Initialize;
-
    function Clock
       return Time
    is (Time (RP.Timer.Clock));
@@ -33,6 +28,9 @@ package body Adafruit_Metro_RP2040.Time is
       (T : Time)
    is
    begin
+      if not Delays.Enabled then
+         Delays.Enable;
+      end if;
       Delays.Delay_Until (RP.Timer.Time (T));
    end Delay_Until;
 

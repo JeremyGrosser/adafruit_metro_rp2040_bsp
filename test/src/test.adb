@@ -49,7 +49,6 @@ begin
    MRP.GPIO.Pin_Mode (MRP.Pins.D13, Output => True);
    MRP.GPIO.Pin_Mode (MRP.Pins.D12, Output => True);
 
-   MRP.Time.Initialize;
    T := Clock;
 
    loop

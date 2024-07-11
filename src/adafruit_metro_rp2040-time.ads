@@ -9,8 +9,6 @@ is
 
    type Time is mod 2 ** 64;
 
-   procedure Initialize;
-
    function Clock
       return Time;
 
