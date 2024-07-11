@@ -4,7 +4,6 @@
 --  SPDX-License-Identifier: MIT
 --
 pragma Style_Checks ("M120");
-with Ada.Unchecked_Conversion;
 
 package body SSD1306 is
 
@@ -114,8 +113,8 @@ package body SSD1306 is
 
    procedure Update is
       subtype FB_Bytes is UInt8_Array (1 .. Width * Height / 8);
-      function To_Bytes is new Ada.Unchecked_Conversion (Framebuffer, FB_Bytes);
-      Data : constant FB_Bytes := To_Bytes (FB (Current_FB - 1));
+      Data : FB_Bytes
+         with Import, Address => FB (Current_FB)'Address;
    begin
       Write_Command
          (UInt8_Array'(

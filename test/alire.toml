@@ -16,3 +16,9 @@ adafruit_metro_rp2040_bsp = "*"
 
 [[pins]]
 adafruit_metro_rp2040_bsp = { path='..' }
+
+[[depends-on]]
+tiny_text = "^1.4.0"
+
+[[pins]]
+tiny_text = { url='https://github.com/JeremyGrosser/tiny_text.git' }
