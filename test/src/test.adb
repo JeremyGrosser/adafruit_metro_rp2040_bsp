@@ -9,8 +9,8 @@ with Adafruit_Metro_RP2040.I2C;
 with Adafruit_Metro_RP2040.UART;
 with Adafruit_Metro_RP2040.GPIO;
 with Adafruit_Metro_RP2040.Pins;
-with Adafruit_Metro_RP2040.Time;
 with Adafruit_Metro_RP2040;
+with Ada.Real_Time; use Ada.Real_Time;
 with RP.Clock;
 with HAL;
 
@@ -18,7 +18,6 @@ with SSD1306;
 
 procedure Test is
    package MRP renames Adafruit_Metro_RP2040;
-   use MRP.Time;
 
    Screen_Error : Boolean := True;
 
@@ -32,6 +31,8 @@ procedure Test is
    package Screen is new SSD1306 (Screen_Write);
 
    Data : HAL.UInt8_Array (1 .. 2);
+   Last : Natural;
+
    T : Time;
 
    use type HAL.UInt10;
@@ -74,21 +75,24 @@ begin
 
       Data := (16#AA#, 16#55#);
       MRP.UART.Write (Data);
+      if MRP.UART.Available > 0 then
+         MRP.UART.Read (Data, Last);
+      end if;
 
       MRP.LED.Set_Color (R => 32);
       T := T + Milliseconds (100);
-      Delay_Until (T);
+      delay until T;
 
       MRP.LED.Set_Color (G => 32);
       T := T + Milliseconds (100);
-      Delay_Until (T);
+      delay until T;
 
       MRP.LED.Set_Color (B => 32);
       T := T + Milliseconds (100);
-      Delay_Until (T);
+      delay until T;
 
       MRP.LED.Set_Color;
       T := T + Milliseconds (900);
-      Delay_Until (T);
+      delay until T;
    end loop;
 end Test;

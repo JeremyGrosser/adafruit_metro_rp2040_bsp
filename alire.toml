@@ -14,3 +14,7 @@ rp2040_hal = "^2.3.0"
 
 [[depends-on]]
 chests = "~0.1.1"
+
+[configuration.values]
+rp2040_hal.Interrupts = "bb_runtimes"
+rp2040_hal.Use_Startup = false

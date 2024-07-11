@@ -4,15 +4,14 @@
 --  SPDX-License-Identifier: BSD-3-Clause
 --
 pragma Style_Checks ("M120");
+with Ada.Interrupts.Names;
 with Chests.Ring_Buffers;
 with Adafruit_Metro_RP2040.Pins;
 with RP2040_SVD.UART;
-with RP2040_SVD.Interrupts;
 with RP.UART;
 with RP.GPIO;
 with RP;
 with HAL.UART;
-with RP_Interrupts;
 
 package body Adafruit_Metro_RP2040.UART is
 
@@ -29,20 +28,27 @@ package body Adafruit_Metro_RP2040.UART is
        Periph => RP2040_SVD.UART.UART0_Periph'Access,
        Config => RP.UART.Default_UART_Configuration);
 
-   procedure UART0_Handler is
-      use type RP.UART.UART_FIFO_Status;
-      use HAL.UART;
-      use Byte_Buffers;
-      Data   : HAL.UInt8_Array (1 .. 1);
-      Status : UART_Status;
-   begin
-      while Port.Receive_Status /= RP.UART.Empty loop
-         Port.Receive (UART_Data_8b (Data), Status, Timeout => 0);
-         if not Is_Full (Buffer) and then Status = Ok then
-            Append (Buffer, Data (1));
-         end if;
-      end loop;
-   end UART0_Handler;
+   protected Receiver is
+      procedure UART_Interrupt
+         with Attach_Handler => Ada.Interrupts.Names.UART0_Interrupt_CPU_1;
+   end Receiver;
+
+   protected body Receiver is
+      procedure UART_Interrupt is
+         use type RP.UART.UART_FIFO_Status;
+         use HAL.UART;
+         use Byte_Buffers;
+         Data   : HAL.UInt8_Array (1 .. 1);
+         Status : UART_Status;
+      begin
+         while Port.Receive_Status /= RP.UART.Empty loop
+            Port.Receive (UART_Data_8b (Data), Status, Timeout => 0);
+            if not Is_Full (Buffer) and then Status = Ok then
+               Append (Buffer, Data (1));
+            end if;
+         end loop;
+      end UART_Interrupt;
+   end Receiver;
 
    procedure Initialize is
    begin
@@ -52,10 +58,6 @@ package body Adafruit_Metro_RP2040.UART is
       Byte_Buffers.Clear (Buffer);
       Port.Set_FIFO_IRQ_Level (RX => RP.UART.Lvl_Eighth, TX => RP.UART.Lvl_Eighth);
       Port.Enable_IRQ (RP.UART.Receive);
-      RP_Interrupts.Attach_Handler
-         (Handler => UART0_Handler'Access,
-          Id      => RP2040_SVD.Interrupts.UART0_Interrupt,
-          Prio    => RP_Interrupts.Interrupt_Priority'First);
    end Initialize;
 
    procedure Set_Speed

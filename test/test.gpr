@@ -1,10 +1,9 @@
 with "config/test_config.gpr";
-with "adafruit_metro_rp2040_bsp.gpr";
 
 project Test is
 
-   for Target use Adafruit_Metro_RP2040_BSP'Target;
-   for Runtime ("Ada") use "light-cortex-m0p";
+   for Target use "arm-eabi";
+   for Runtime ("Ada") use "embedded-rpi-pico-smp";
 
    for Source_Dirs use ("src/", "config/");
    for Object_Dir use "obj/" & Test_Config.Build_Profile;
@@ -23,12 +22,5 @@ project Test is
    package Install is
       for Artifacts (".") use ("share");
    end Install;
-
-   package Linker is
-      for Switches ("Ada") use Adafruit_Metro_RP2040_BSP.Linker_Switches & (
-         "-Wl,-print-memory-usage",
-         "-Wl,-gc-sections"
-      );
-   end Linker;
 
 end Test;

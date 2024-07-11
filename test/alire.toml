@@ -16,9 +16,3 @@ adafruit_metro_rp2040_bsp = "*"
 
 [[pins]]
 adafruit_metro_rp2040_bsp = { path='..' }
-
-[build-profiles]
-"*" = "development"
-
-[build-switches]
-release.optimization = ["-gnatn2", "-gnatp", "-Os"]

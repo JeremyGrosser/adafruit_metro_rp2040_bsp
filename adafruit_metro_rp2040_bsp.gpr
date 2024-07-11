@@ -1,10 +1,9 @@
 with "config/adafruit_metro_rp2040_bsp_config.gpr";
-with "rp2040_hal.gpr";
 
 project Adafruit_Metro_Rp2040_Bsp is
 
-   for Target use RP2040_HAL'Target;
-   for Runtime ("Ada") use RP2040_HAL'Runtime ("Ada");
+   for Target use "arm-eabi";
+   for Runtime ("Ada") use "embedded-rpi-pico-smp";
 
    for Library_Name use "Adafruit_Metro_Rp2040_Bsp";
    for Library_Version use Project'Library_Name & ".so." & Adafruit_Metro_Rp2040_Bsp_Config.Crate_Version;
@@ -30,7 +29,5 @@ project Adafruit_Metro_Rp2040_Bsp is
    package Install is
       for Artifacts (".") use ("share");
    end Install;
-
-   Linker_Switches := RP2040_HAL.Linker_Switches;
 
 end Adafruit_Metro_Rp2040_Bsp;

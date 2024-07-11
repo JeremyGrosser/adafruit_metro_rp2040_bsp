@@ -5,14 +5,13 @@
 --
 with Adafruit_Metro_RP2040.GPIO; use Adafruit_Metro_RP2040.GPIO;
 with Adafruit_Metro_RP2040.Pins; use Adafruit_Metro_RP2040.Pins;
-with Adafruit_Metro_RP2040.Time; use Adafruit_Metro_RP2040.Time;
 
 procedure Example is
 begin
    loop
       Digital_Write (D13, True);
-      Delay_Milliseconds (100);
+      delay 0.1;
       Digital_Write (D13, False);
-      Delay_Milliseconds (100);
+      delay 0.1;
    end loop;
 end Example;
